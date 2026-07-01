@@ -1,0 +1,73 @@
+<div class="auth-wrapper">
+  <!-- Glowing neon shapes in the background for premium wow factor -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <mat-card class="auth-card glass-effect">
+    <mat-card-header class="auth-header">
+      <mat-icon class="auth-logo">dashboard</mat-icon>
+      <mat-card-title class="auth-title">TaskBoard</mat-card-title>
+      <mat-card-subtitle class="auth-subtitle">
+        {{ isLoginMode ? 'Sign in to access your dashboard' : 'Create an account to start organizing' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="auth-content">
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <!-- Full Name (Signup only) -->
+        <mat-form-field appearance="fill" *ngIf="!isLoginMode" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" placeholder="e.g. Jordan Miller" />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <!-- Email Address -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="e.g. jordan@example.com" />
+          <mat-icon matSuffix>mail</mat-icon>
+          <mat-error *ngIf="authForm.controls.email.invalid">Please enter a valid email address.</mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+          <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="authForm.controls.password.invalid">Password must be at least 6 characters.</mat-error>
+        </mat-form-field>
+
+        <!-- Confirm Password (Signup only) -->
+        <mat-form-field appearance="fill" *ngIf="!isLoginMode" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="confirmPassword" />
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+
+        <!-- Alert boxes -->
+        <div class="alert-box error-alert" *ngIf="errorMessage">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+        <div class="alert-box success-alert" *ngIf="successMessage">
+          <mat-icon>check_circle_outline</mat-icon>
+          <span>{{ successMessage }}</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button mat-raised-button class="submit-btn ripple-btn" type="submit">
+          <span>{{ isLoginMode ? 'Sign In' : 'Sign Up' }}</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="auth-footer" style="padding: 0;">
+      <button type="button" mat-button (click)="toggleMode()" class="toggle-mode-btn">
+        {{ isLoginMode ? "Don't have an account? Sign up" : 'Already have an account? Sign in' }}
+      </button>
+    </mat-card-footer>
+  </mat-card>
+</div>

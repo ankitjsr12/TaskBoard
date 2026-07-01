@@ -1,0 +1,48 @@
+<mat-card class="task-card-premium priority-{{ task.priority }}" [class.overdue]="isOverdue">
+  <mat-card-header>
+    <div class="card-title-group">
+      <mat-card-title>{{ task.title }}</mat-card-title>
+      <span class="priority-badge-premium" [style.color]="'var(--priority-' + task.priority + ')'" [style.background]="'var(--priority-' + task.priority + '-bg)'">
+        {{ task.priority }}
+      </span>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="description-text">{{ task.description }}</p>
+    
+    <div class="meta-info">
+      <div class="meta-item" [class.text-danger]="isOverdue">
+        <mat-icon>calendar_today</mat-icon>
+        <span>{{ task.dueDate }}</span>
+        <span class="overdue-text ms-1" *ngIf="isOverdue">(overdue)</span>
+      </div>
+      <div class="meta-item">
+        <mat-icon>person</mat-icon>
+        <span>{{ task.assignedTo }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="card-actions-premium">
+    <div class="card-actions-left">
+      <button mat-icon-button (click)="edit.emit(task)" class="ripple-btn action-btn edit-icon-btn" title="Edit Task">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="delete.emit(task)" class="ripple-btn action-btn delete-icon-btn" title="Delete Task">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    
+    <div class="card-actions-right">
+      <button mat-flat-button class="state-btn ripple-btn start-state-btn" *ngIf="task.status === 'Todo'" (click)="start.emit(task)">
+        <mat-icon>play_arrow</mat-icon>
+        <span>Start</span>
+      </button>
+      <button mat-flat-button class="state-btn ripple-btn done-state-btn" *ngIf="task.status === 'In Progress'" (click)="done.emit(task)">
+        <mat-icon>done</mat-icon>
+        <span>Done</span>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

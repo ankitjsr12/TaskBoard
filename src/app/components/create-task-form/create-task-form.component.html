@@ -1,0 +1,54 @@
+<div class="material-modal" [class.visible]="visible" (click)="onCancel()">
+  <div class="material-modal-content" (click)="$event.stopPropagation()">
+    <h3 class="form-title">{{ isEditMode ? 'Edit Task' : 'Create Task' }}</h3>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Title input -->
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" placeholder="e.g. Write release notes" />
+        <mat-error *ngIf="form.controls.title.invalid">Title is required (max 100 characters).</mat-error>
+      </mat-form-field>
+
+      <!-- Description input -->
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3" placeholder="Add details about this task"></textarea>
+        <mat-error *ngIf="form.controls.description.invalid">Description is required (max 500 characters).</mat-error>
+      </mat-form-field>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <!-- Priority dropdown -->
+        <mat-form-field appearance="fill">
+          <mat-label>Priority</mat-label>
+          <mat-select formControlName="priority">
+            <mat-option *ngFor="let p of priorities" [value]="p">{{ p }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Due Date input -->
+        <mat-form-field appearance="fill">
+          <mat-label>Due Date</mat-label>
+          <input matInput type="date" formControlName="dueDate" />
+          <mat-error *ngIf="form.controls.dueDate.invalid">Due date is required.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Assigned To input -->
+      <mat-form-field appearance="fill">
+        <mat-label>Assigned To</mat-label>
+        <input matInput formControlName="assignedTo" placeholder="e.g. Jordan" />
+        <mat-error *ngIf="form.controls.assignedTo.invalid">Assignee is required.</mat-error>
+      </mat-form-field>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()" class="ripple-btn">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" class="ripple-btn create-btn">
+          <mat-icon>{{ isEditMode ? 'check' : 'add' }}</mat-icon>
+          <span>{{ isEditMode ? 'Save Changes' : 'Create Task' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
